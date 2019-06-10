@@ -1,8 +1,0 @@
-"another line" 
-
-adding another feature great!
-
-and another one
-
-still on my own developer's branch
-
