@@ -25,7 +25,7 @@ class FollowablesTableSeeder extends Seeder
                     'followable_type' => 'App\Keyword' 
                 ]);
             }
-            //=======================
+            //==========================
             $keys = [];
             for($r = 1; $r<=rand(1,10);$r++){
                 $val = rand(1,App\User::count());
