@@ -28,3 +28,5 @@ Route::get('/keywords/top','KeywordController@top');
 Route::resource('/keywords','KeywordController');
 Route::get('/sentences/create/{sentence_id}','SentenceController@create')->name('sentences.create.special');
 Route::resource('/sentences','SentenceController')->except('create');
+Route::resource('/comments','CommentController')->except('create','index','destroy');
+Route::resource('/rating','RateablesController');

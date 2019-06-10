@@ -32,7 +32,7 @@
                 <div class="card-body">
                         <label for="custom_keywords">Enter comma separated keywords</label>
                         <textarea class="form-control" name="custom_keywords" rows="3" placeholder="e.g. Science fiction, Halloween, Animals">{{ old('custom_keywords') }}</textarea>
-                        @if ($errors->has('sentence'))
+                        @if ($errors->has('custom_keywords'))
                             <span class="invalid-feedback">
                                 <strong>{{ $errors->first('custom_keywords') }}</strong>
                             </span>
@@ -74,7 +74,7 @@
         <textarea class="form-control" name="sentence" rows="3" placeholder="Enter sentence" " required>{{old('sentence')}}</textarea>
         @if ($errors->has('sentence'))
             <span class="invalid-feedback">
-                <strong>{{ $errors->first('title') }}</strong>
+                <strong>{{ $errors->first('sentence') }}</strong>
             </span>
         @endif
     </div>

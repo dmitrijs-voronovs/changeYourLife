@@ -17,14 +17,6 @@
   @endphp
 <div class="card m-4 col-3{{$class}}">
 
-<!-- Card image -->
-<div class="view overlay">
-  <img class="card-img-top" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" alt="Card image cap">
-  <a href="#!">
-    <div class="mask rgba-white-slight"></div>
-  </a>
-</div>
-
 <!-- Card content -->
 <div class="card-body">
 

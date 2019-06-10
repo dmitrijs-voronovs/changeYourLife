@@ -24,6 +24,8 @@ class Sentence extends Model
     }
     
     public function ratings(){
-        return $this->morphToMany('App\User','rateable');
+        return $this->morphToMany('App\User','rateable')
+            ->using('App\RateablePivot')
+            ->withPivot('like');
     }
 }
