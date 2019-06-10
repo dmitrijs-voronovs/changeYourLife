@@ -20,7 +20,7 @@ class FollowablesTableSeeder extends Seeder
             $keys = array_unique($keys);
             foreach($keys as $k){
                 DB::table('followables')->insert([
-                    'user_id' => rand(1,App\User::count()),
+                    'user_id' => $u,
                     'followable_id' => $k,
                     'followable_type' => 'App\Keyword' 
                 ]);
@@ -29,16 +29,15 @@ class FollowablesTableSeeder extends Seeder
             $keys = [];
             for($r = 1; $r<=rand(1,10);$r++){
                 $val = rand(1,App\User::count());
-                if($val == $u){
-                    $r--;
-                    continue;
+                while($val == $u){
+                    $val = rand(1,App\User::count());
                 }
                 array_push($keys,$val);
             }
             $keys = array_unique($keys);
             foreach($keys as $k){
                 DB::table('followables')->insert([
-                    'user_id' => rand(1,App\User::count()),
+                    'user_id' => $u,
                     'followable_id' => $k,
                     'followable_type' => 'App\User' 
                 ]);
