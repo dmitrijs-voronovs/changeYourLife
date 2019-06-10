@@ -8,6 +8,7 @@
 @endphp
 
 @section('content')
+
 <div class="card">
     <!-- Card content -->
     <div class="card-body">
@@ -24,12 +25,15 @@
             No keywords
             @endforelse
         </p>
+        @component('components.rating',['instance'=>$story,'entity'=>'App\Story'])
+        @endcomponent
 
-        <table class="table">
+        <table class="table mt-2">
             <thead>
                 <tr>
                     <th scope="col">User</th>
                     <th scope="col">sentence</th>
+                    <th scope="col" style="width: 110px">rating</th>
                     <th scope="col">contributions</th>
                 </tr>
             </thead>
@@ -38,6 +42,10 @@
                 <tr>
                     <td><a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a></td>
                     <td>{{$sentence->text}}</td>
+                    <td>
+                        @component('components.rating',['instance'=>$sentence,'entity'=>'App\Sentence'])
+                        @endcomponent
+                    </td>
                     <td>{{App\Sentence::where('author_id',$sentence->author->id)->where('story_id',$story->id)->count()}}
                     </td>
                 </tr>

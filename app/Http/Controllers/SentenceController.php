@@ -17,7 +17,7 @@ class SentenceController extends Controller
      */
     public function index()
     {
-        $sentences = Sentence::orderBy('created_at')->get();
+        $sentences = Sentence::orderBy('created_at','desc')->get();
         return view('sentences',compact('sentences'));
     }
 

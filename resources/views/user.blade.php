@@ -31,9 +31,19 @@
     <div class="card-body">
         <ul class="list-group list-group-flush">
             @forelse($user->stories as $story)
-            <li class="list-group-item"><a href="{{route('stories.show',$story->id)}}">{{$story->title}}</a></li>
+                <li class="list-group-item">
+                <div class="row">
+                    <div class="col-10">
+                        <a href="{{route('stories.show',$story->id)}}">{{$story->title}}</a>
+                    </div>
+                    <div class="col-2">
+                        @component('components.rating',['instance'=>$story,'entity'=>'App\Story'])
+                        @endcomponent            
+                    </div>
+                </div>
+                </li>
             @empty
-            Nothing
+                No stories
             @endforelse
         </ul>
     </div>
@@ -45,10 +55,20 @@
     </div>
     <div class="card-body">
         <ul class="list-group list-group-flush">
-            @forelse($user->stories as $story)
-            <li class="list-group-item"><a href="{{route('stories.show',$story->id)}}">{{$story->title}}</a></li>
+            @forelse($user->sentences as $sentence)
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-10">    
+                            <a href="{{route('sentences.show',$sentence->id)}}">{{$sentence->text}}</a>
+                        </div>
+                        <div class="col-2">
+                            @component('components.rating',['instance'=>$sentence,'entity'=>'App\Sentence'])
+                            @endcomponent            
+                        </div>
+                    </div>
+                </li>
             @empty
-            Nothing
+                No sentences
             @endforelse
         </ul>
     </div>
@@ -60,34 +80,14 @@
     </div>
     <div class="card-body">
         <ul class="list-group list-group-flush">
-            @forelse($user->comments as $comment)
-            <li class="list-group-item"><a href="{{route('stories.show',$comment->story_id)}}">{{$comment->text}}</a></li>
+            @forelse($user->comments()->orderBy('created_at','desc')->get() as $comment)
+                <!-- <li class="list-group-item"><a href="{{route('stories.show',$comment->story_id)}}">{{$comment->text}}</a></li> -->
+                @component('components.comment',compact('comment'))
+                @endcomponent
             @empty
-            No followers
+                No comments
             @endforelse
         </ul>
     </div>
 </div>
-
-<!-- <div class="card">
-  <div class="card-header">
-    Followers
-  </div>
-  <div class="card-body">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Users</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($user->followers as $flw)
-      <tr>
-        <td><a href="{{route('users.show',$user->id)}}">{{$flw->name}}</a></td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-  </div>
-</div> -->
 @endsection

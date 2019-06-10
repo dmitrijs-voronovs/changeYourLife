@@ -50,7 +50,7 @@ class User extends Authenticatable
     }
 
     public function sentences(){
-        return $this->hasMany('App\Sentence');
+        return $this->hasMany('App\Sentence','author_id');
     }
 
     public function followed_keywords(){

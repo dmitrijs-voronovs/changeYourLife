@@ -8,16 +8,16 @@
     <thead>
       <tr>
         <th scope="col">User</th>
-        <th scope="col">Sentence</th>
         <th scope="col">Total Written S.</th>
+        <th scope="col">Sentence</th>
       </tr>
     </thead>
     <tbody>
       @foreach($sentences as $sentence)
       <tr>
         <td><a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a></td>
-        <td><a href="{{route('stories.show',$sentence->story_id)}}">{{$sentence->text}}</a></td>
         <td>{{\App\Sentence::where('author_id',$sentence->author->id)->count()}}</td>
+        <td><a href="{{route('stories.show',$sentence->story_id)}}">{{$sentence->text}}</a></td>
       </tr>
       @endforeach
     </tbody>

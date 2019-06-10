@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rules\RateablesType;
 
 class RateablesController extends Controller
 {
     public function __construct(){
-        $this->middelware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +38,25 @@ class RateablesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_data = $request->validate([
+            'user_id'=>'required|exists:users,id',
+            'rateable_id'=>'required|integer',
+            'rateable_type'=>['required','string',new RateablesType],
+            'like'=>'required|integer|min:0|max:1'
+        ]);
+        // check for possible previous likes/dislikes of the same post
+        $rating = \DB::table('rateables')
+            ->where('user_id',$validated_data['user_id'])
+            ->where('rateable_type',$validated_data['rateable_type'])
+            ->where('rateable_id',$validated_data['rateable_id']);
+        
+        if ($rating->count()==1){
+            if($rating->first()->like==$validated_data['like'])
+                $rating->delete();
+            else $rating->update($validated_data);
+        } 
+        else \DB::table('rateables')->updateOrInsert($validated_data);
+        return redirect()->back();
     }
 
     /**
