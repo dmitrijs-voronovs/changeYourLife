@@ -19,7 +19,7 @@
                     - <a href="{{route('users.show',$rating->pivot->user_id)}}">{{\App\User::findOrFail($rating->pivot->user_id)->name}}</a>
                 </li>
             @empty
-                No sentences
+                No ratings
             @endforelse
         </ul>
     </div>

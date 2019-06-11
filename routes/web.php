@@ -24,9 +24,9 @@ Route::match(['put','patch'],'/follow/{id}','UserController@follow')->name('foll
 Route::get('/followers/{id}','UserController@followers')->name('followers');
 Route::resource('/users','UserController');
 Route::resource('/stories','StoryController');
-Route::get('/keywords/top','KeywordController@top');
-Route::resource('/keywords','KeywordController');
-Route::get('/sentences/create/{sentence_id}','SentenceController@create')->name('sentences.create.special');
+Route::get('/keywords/top','KeywordController@top')->name('keywords.top');
+Route::resource('/keywords','KeywordController')->except('create');
+Route::get('/sentences/create/{story}','SentenceController@create')->name('sentences.create.special');
 Route::resource('/sentences','SentenceController')->except('create');
-Route::resource('/comments','CommentController')->except('create','index','destroy');
+Route::resource('/comments','CommentController')->except('create','index');
 Route::resource('/rating','RateablesController');

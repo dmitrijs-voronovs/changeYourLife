@@ -56,7 +56,7 @@
                             @forelse($keywords as $keyword)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" name="kw[]" value="{{$keyword->id}}" id="kw[{{$keyword->id}}]" {{( (is_array(old('kw')) && in_array($keyword->id, old('kw'))) )?' checked':''}}>
-                                <label class="custom-control-label" for="kw[{{$keyword->id}}]">{{$keyword->word}}</label>
+                                <label class="custom-control-label" for="kw[{{$keyword->id}}]">#{{$keyword->word}}</label>
                             </div>    
                             @empty
                                 Oops, there are no keywords. Please, create your own keywords above

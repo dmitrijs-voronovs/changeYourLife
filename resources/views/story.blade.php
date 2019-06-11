@@ -1,26 +1,27 @@
 @extends('layouts.app')
 @php
   if ($story->finished){
-    $class = ' bg-warning';
+    $class = 'warning';
   } else {
-    $class = ($story->open)?' bg-success':'';
+    $class = ($story->open)?'success':'primary';
   }
 @endphp
 
 @section('content')
 
-<div class="card">
+<div class="card border border-{{$class}}">
     <!-- Card content -->
     <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title{{$class}}">{{$story->title}}</h4>
+        <h2 class="card-title mt-1">{{$story->title}}</h4>
         <!-- Text -->
-        <p class="card-text"><a href="{{route('users.show',$story->author->id)}}">{{$story->author->name}}</a></p>
+        <h4 class="card-text mb-3"><a href="{{route('users.show',$story->author->id)}}">{{$story->author->name}}</a></h4>
+        <hr>
         <!-- Button -->
-        <p>
+        <p class="pb-1">
             @forelse($story->keywords as $keyword)
-            <a href="{{route('keywords.show',$keyword->id)}}">{{$keyword->word}}</a> @if(!$loop->last),@endif
+                <a class="rounded-pill mr-2 btn-sm btn-primary" href="{{route('keywords.show',$keyword->id)}}">#{{$keyword->word}}</a>
             @empty
             No keywords
             @endforelse
@@ -38,15 +39,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($story->sentences as $sentence)
+                @foreach($story->sentences()->withTrashed()->get() as $sentence)
                 <tr>
                     <td><a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a></td>
-                    <td>{{$sentence->text}}</td>
                     <td>
+                        @if($sentence->trashed())<s>@endif
+                            <a class="text-muted" href="{{route('sentences.show',$sentence->id)}}">#{{$sentence->id}}</a> {{$sentence->text}}
+                        @if($sentence->trashed())</s>@endif
+                    </td>
+                    <td>
+                    @if(!$sentence->trashed())
                         @component('components.rating',['instance'=>$sentence,'entity'=>'App\Sentence'])
                         @endcomponent
+                    @endif
                     </td>
-                    <td>{{App\Sentence::where('author_id',$sentence->author->id)->where('story_id',$story->id)->count()}}
+                    <td class="text-center">{{App\Sentence::where('author_id',$sentence->author->id)->where('story_id',$story->id)->count()}}
                     </td>
                 </tr>
                 @endforeach

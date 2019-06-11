@@ -9,19 +9,19 @@ use App\Keyword;
 class KeywordController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->only(['create']);
+        $this->middleware('auth')->except(['index','top']);
     }
     
     public function top()
     {
         // has no keywords with count = 0 
-        $keywords = DB::table('story_keyword')
-            ->join('keywords','keyword_id','=','keywords.id')
-            ->select(DB::raw('keyword_id, word, count(story_id) as total'))
-            ->groupBy('keyword_id','word')
-            ->orderBy('total','desc')
-            ->orderBy('word')
-            ->get();
+        // $keywords = DB::table('story_keyword')
+        //     ->join('keywords','keyword_id','=','keywords.id')
+        //     ->select(DB::raw('keyword_id, word, count(story_id) as total'))
+        //     ->groupBy('keyword_id','word')
+        //     ->orderBy('total','desc')
+        //     ->orderBy('word')
+        //     ->get();
 
         // has all keywords
         $keywords = DB::table('keywords')
@@ -30,17 +30,10 @@ class KeywordController extends Controller
             ->groupBy('keywords.id','word')
             ->orderBy('total','desc')
             ->orderBy('word')
-            ->take(10)
+            // ->take(10)
             ->get();
 
-        var_dump($keywords);
-        
-
-        // $users = DB::table('orders')
-        //         ->select('department', DB::raw('SUM(price) as total_sales'))
-        //         ->groupBy('department')
-        //         ->havingRaw('SUM(price) > 2500')
-        //         ->get();
+        // var_dump($keywords);
         
         return view('keywords2',compact('keywords'));
     }
@@ -52,7 +45,6 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        // $keywords = Keyword::orderBy('word','asc')->get();
         $keywords = Keyword::orderBy('word','asc')->get();
         return view('keywords',compact('keywords'));
     }

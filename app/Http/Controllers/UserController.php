@@ -8,7 +8,8 @@ use App\User;
 class UserController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->only(['show','edit']);
+        $this->middleware('auth');
+        $this->middleware('admin')->only('index');
     }
     
     /**
@@ -102,8 +103,13 @@ class UserController extends Controller
             'followable_type'=>'string',
             'user_id'=>'integer|exists:users,id'
         ]);
-        \DB::table('followables')->updateOrInsert($validated_data);
+        $querry = \DB::table('followables')
+            ->where('user_id',$request->input('user_id'))
+            ->where('followable_id',$request->input('followable_id'))
+            ->where('followable_type',$request->input('followable_type'));
+        if ($querry->count()) $querry->delete();
+        else \DB::table('followables')->updateOrInsert($validated_data);
         $user =\App\User::find($id);
-        return view('followers',compact('user'));
+        return redirect()->route('users.show',$id);
     }
 }

@@ -2,15 +2,22 @@
 @section('content')
 
 <div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">{{$keyword->word}}</h1>
+  <div class="container px-5">
+    <h1 class="display-4">#{{$keyword->word}}</h1>
     <p class="lead">There {{($keyword->stories->count()==1)?'is':'are'}} total {{$keyword->stories->count()}} {{str_plural('story',$keyword->stories->count())}} with this keyword!</p>
   </div>
 </div>
 
 @forelse($keyword->stories as $story)
+    @php
+      if ($story->finished){
+        $class = 'warning';
+      } else {
+        $class = ($story->open)?'success':'primary';
+      }
+    @endphp
     {{$story->word}}
-    <div class="card my-2">
+    <div class="card border border-{{$class}} my-3">
         <div class="card-body">
             <blockquote class="blockquote mb-0">
             <p>{{$story->title}}</p>

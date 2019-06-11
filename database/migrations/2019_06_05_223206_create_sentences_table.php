@@ -18,11 +18,10 @@ class CreateSentencesTable extends Migration
             $table->text('text');
             $table->integer('author_id')->unsigned();
                 $table->foreign('author_id')->references('id')->on('users');
-            $table->integer('prev_sentence_id')->unsigned()->nullable();
-                $table->foreign('prev_sentence_id')->references('id')->on('sentences');
             $table->integer('story_id')->unsigned();
                 $table->foreign('story_id')->references('id')->on('story');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

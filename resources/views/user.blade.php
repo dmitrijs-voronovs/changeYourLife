@@ -11,13 +11,16 @@
         <a href="{{route('followers',$user->id)}}">{{$user->followers->count()}} {{str_plural('follower',$user->followers->count())}}</a></p>
         
         @if(\Auth::user()->id != $user->id)
+        @php
+
+        @endphp
         <form action={{route('follow',$user->id)}} method="POST">
             @csrf
             @method("PATCH")
             <input type="text" name="followable_id" value="{{$user->id}}" hidden/>
             <input type="text" name="followable_type" value="App\User" hidden/>
-            <input type="text" name="user_id" value="{{\Auth::user()->id}}" hidden/>
-            <input type="submit" class="btn btn-primary" value="Follow">
+            <input type="text" name="user_id" value="{{\Auth::id()}}" hidden/>
+            <input type="submit" class="btn btn-primary" value="{{(\DB::table('followables')->where('user_id',\Auth::id())->where('followable_type','App\User')->where('followable_id',$user->id)->count())?'Unfollow':'Follow'}}"/>
         </form>
         @endif
 

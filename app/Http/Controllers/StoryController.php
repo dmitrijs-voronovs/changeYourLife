@@ -9,7 +9,8 @@ use Auth;
 class StoryController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->only(['create','edit']);
+        $this->middleware('auth')->except(['index']);
+        $this->middleware('ownerOrAdmin:story,stories')->only('edit','update','destroy');
     }
     /**
      * Display a listing of the resource.
@@ -53,8 +54,7 @@ class StoryController extends Controller
         ]);
         $story->sentences()->create([
             'text'=>$request->input('sentence'),
-            'author_id'=>Auth::user()->id,
-            'prev_sentence_id'=>null
+            'author_id'=>Auth::user()->id
         ]);
         if($request->input('custom_keywords')){
             $new_keywords = explode(',',$request->input('custom_keywords'));

@@ -1,43 +1,39 @@
 <div class="container">
 <!-- Card deck -->
+<style>
+  .posts{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    grid-gap: 15px;
+  }
+</style>
 
-<h1 id="{{$class}}">{{$heading}}</h1>
+<div class="card p-3 mb-3">
+  <h1 id="{{$class}}">{{$heading}}</h1>
+  <div class="posts mt-2 ">
+  @foreach($stories as $story)
+      <!-- @if ($loop->index%2 == 0) 
+          <div class="row">
+      @endif -->
+    <!-- Card -->
+    @php
+      if ($story->finished){
+        $class = 'warning';
+      } else {
+        $class = ($story->open)?'success':'primary';
+      }
+    @endphp
+  <div class="card pl-2 border border-{{$class}}">
+    <blockquote class="p-2 pt-3 blockquote">
+      <p class="mb-0">{{$story->title}}</p>
+      <footer class="blockquote-footer"><cite title="Source Title">{{$story->author->name}} <a href="{{route('stories.show',$story->id)}}">Read</a></cite></footer>
+    </blockquote>
+  </div>
 
-@foreach($stories as $story)
-    @if ($loop->index%3 == 0) 
-        <div class="row">
-    @endif
-  <!-- Card -->
-  @php
-    if ($story->finished){
-      $class = ' bg-warning';
-    } else {
-      $class = ($story->open)?' bg-success':'';
-    }
-  @endphp
-<div class="card m-4 col-3{{$class}}">
-
-<!-- Card content -->
-<div class="card-body">
-
-  <!-- Title -->
-  <h4 class="card-title">{{$story->title}}</h4>
-  <!-- Text -->
-  <p class="card-text">{{$story->author->name}}</p>
-  <!-- Button -->
-  <a href="{{route('stories.show',$story->id)}}" class="btn btn-primary">Read</a>
-
+  @endforeach
+  </div>
 </div>
 
-</div>
-<!-- Card -->
-@if ($loop->index%3 == 2 or $loop->index+1 == $stories->count()) 
-    </div>
-@endif
-@endforeach
-
-<!-- </div> -->
-<!-- Card deck -->
 {{$slot}}
 
 </div>

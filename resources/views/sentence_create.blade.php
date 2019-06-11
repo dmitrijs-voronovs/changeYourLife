@@ -12,9 +12,15 @@
             </span>
         @endif
     </div>
+    @if(\App\Story::findOrFail($story_id)->user_id==$author_id)
+    <div class="custom-control custom-checkbox mb-2">
+        <input type="checkbox" class="custom-control-input" name="finish" id="finish">
+        <label class="custom-control-label" for="finish">Finish your story with this sentence?</label>
+    </div>
+    @endif
 
     <input hidden class="form-control" name="story_id" value="{{ $story_id }}" required/>
     <input hidden class="form-control" name="author_id" value="{{ $author_id }}" required/>
-    <input hidden class="form-control" name="prev_sentence_id" value="{{ $prev_sentence_id }}" required/>
     <button type='submit' class='mt-2 btn btn-primary'>Create</button>
+</form>
 @endsection

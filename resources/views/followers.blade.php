@@ -17,4 +17,5 @@
         </ul>
     </div>
 </div>
+<a href="{{route('users.show',$user->id)}}" class="btn btn-primary">back</a>
 @endsection

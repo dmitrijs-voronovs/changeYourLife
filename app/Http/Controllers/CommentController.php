@@ -9,6 +9,7 @@ class CommentController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('ownerOrAdmin:comment,comments')->only('edit','update','destroy');
     }
     /**
      * Display a listing of the resource.
@@ -67,7 +68,8 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view('comment_edit',compact('comment'));
     }
 
     /**
@@ -79,7 +81,14 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated_data = $request->validate([
+            'text'=>'string|required',
+            'user_id'=>'integer|required|exists:users,id',
+            'story_id'=>'integer|required|exists:stories,id'
+        ]);
+        $comment = Comment::findOrFail($id);
+        $comment->update($validated_data);
+        return redirect()->route('stories.show',$comment->story_id);
     }
 
     /**
@@ -90,6 +99,12 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment =Comment::findOrFail($id);
+        $story_id = $comment->story_id;        
+        $comment->delete();
+        \DB::table('rateables')
+            ->where('rateable_type','App\Comment')
+            ->where('rateable_id',$id)->delete();
+        return redirect()->route('stories.show',$story_id);
     }
 }
