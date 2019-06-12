@@ -24,6 +24,8 @@ Route::match(['put','patch'],'/follow/{id}','UserController@follow')->name('foll
 Route::get('/followers/{id}','UserController@followers')->name('followers');
 Route::resource('/users','UserController');
 Route::get('/stories/{story}/edit/main','StoryController@editMain')->name('stories.edit.main');
+Route::get('/stories/search','StoryController@getSearch')->name('stories.search');
+Route::post('/stories/search','StoryController@postSearch')->name('stories.postSearch');
 Route::resource('/stories','StoryController');
 Route::get('/keywords/top','KeywordController@top')->name('keywords.top');
 Route::resource('/keywords','KeywordController')->except('create');

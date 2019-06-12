@@ -44,9 +44,10 @@
                     <li><a class="nav-link" href="/keywords">Keywords</a></li>
                     <li><a class="nav-link" href="/sentences">Sentences</a></li>
                     <li><a class="nav-link" href="/users">Authors</a></li>
-                    <li><a class="nav-link" href="/trend">Trends</a></li>
+                    <li><a class="nav-link" href="/stories/search">Search</a></li>
+                    <!-- <li><a class="nav-link" href="/trend">Trends</a></li> -->
                     @if ( !Auth::guest() && Auth::user()->isAdmin() )
-                        <li><a class="nav-link" href="/admin">Admin</a></li>
+                        <!-- <li><a class="nav-link" href="/admin">Admin</a></li> -->
                     @endif                        
                     <!-- <li><a class="nav-link" href="/events/search">Search</a></li> -->
                 </ul>

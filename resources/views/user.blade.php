@@ -11,17 +11,21 @@
         <a href="{{route('followers',$user->id)}}">{{$user->followers->count()}} {{str_plural('follower',$user->followers->count())}}</a></p>
         
         @if(\Auth::user()->id != $user->id)
-        @php
-
-        @endphp
-        <form action={{route('follow',$user->id)}} method="POST">
-            @csrf
-            @method("PATCH")
-            <input type="text" name="followable_id" value="{{$user->id}}" hidden/>
-            <input type="text" name="followable_type" value="App\User" hidden/>
-            <input type="text" name="user_id" value="{{\Auth::id()}}" hidden/>
-            <input type="submit" class="btn btn-primary" value="{{(\DB::table('followables')->where('user_id',\Auth::id())->where('followable_type','App\User')->where('followable_id',$user->id)->count())?'Unfollow':'Follow'}}"/>
-        </form>
+            <form class="d-inline" action={{route('follow',$user->id)}} method="POST">
+                @csrf
+                @method("PATCH")
+                <input type="text" name="followable_id" value="{{$user->id}}" hidden/>
+                <input type="text" name="followable_type" value="App\User" hidden/>
+                <input type="text" name="user_id" value="{{\Auth::id()}}" hidden/>
+                <input type="submit" class="btn btn-primary" value="{{(\DB::table('followables')->where('user_id',\Auth::id())->where('followable_type','App\User')->where('followable_id',$user->id)->count())?'Unfollow':'Follow'}}"/>
+            </form>
+            @if(\Auth::user()->isAdmin() && \Auth::id()!=$user->id)
+                <form class="d-inline" action={{route('users.destroy',$user->id)}} method="POST">
+                    @csrf
+                    @method("DELETE")
+                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                </form>
+            @endif
         @endif
 
     </div>

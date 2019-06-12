@@ -36,6 +36,18 @@
             </span>
         @endif
     </div>
+    
+    @if($story->finished)
+    <div class="form-group">
+        <label for="sentence">Last sentence</label>
+        <textarea class="form-control" name="last_sentence" rows="3" placeholder="Enter sentence" " required>{{$story->sentences()->orderBy('created_at','desc')->first()->text}}</textarea>
+        @if ($errors->has('last_sentence'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('last_sentence') }}</strong>
+            </span>
+        @endif
+    </div>
+    @endif
 
     <button type='submit' class='mt-2 btn btn-primary'>Update</button>
 </form>

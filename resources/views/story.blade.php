@@ -41,7 +41,9 @@
             <tbody>
                 @foreach($story->sentences()->withTrashed()->get() as $sentence)
                 <tr>
-                    <td><a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a></td>
+                    <td>
+                        <a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a>                        
+                    </td>
                     <td>
                         @if($sentence->trashed())<s>@endif
                             <a class="text-muted" href="{{route('sentences.show',$sentence->id)}}">#{{$sentence->id}}</a> {{$sentence->text}}
@@ -63,6 +65,11 @@
         <a href="{{route('stories.index')}}" class="btn btn-primary">back</a>
         @if(Auth::user()->id == $story->user_id || Auth::user()->isAdmin())
         <a href="{{route('stories.edit',$story->id)}}" class="btn btn-primary">Edit</a>
+        <form class="d-inline" action="{{route('stories.destroy',$story->id)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
         @endif
 
         @if(!$story->finished && $story->sentences->last()->author_id != Auth::user()->id)

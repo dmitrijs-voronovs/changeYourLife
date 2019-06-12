@@ -64,7 +64,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('user_edit',compact('user'));
     }
 
     /**
@@ -87,7 +88,29 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->sentences()->delete();
+        $stories = $user->stories();
+        foreach($stories as $story){
+            \DB::table('story_keyword')->where('story_id',$story->id)->delete();
+            \DB::table('rateables')->where('rateable_id',$story->id)
+                ->where('rateable_type','App\Sentence')->delete();
+        }
+        $stories->delete();
+        \DB::table('followables')->where('user_id',$user->id)->delete();
+        \DB::table('followables')
+            ->where('followable_id',$user->id)
+            ->where('followable_type','App\User')->delete();
+        $comments = $user->comments();
+        foreach($comments as $comment){
+            \DB::table('rateables')
+            ->where('rateable_id',$comment->id)
+            ->where('rateable_type','App\Comment')->delete();
+        }
+        $comments->delete();
+        \DB::table('rateables')->where('user_id',$user->id)->delete();
+        $user->delete();
+        return redirect()->route('users.index');
     }
 
     public function followers($id)

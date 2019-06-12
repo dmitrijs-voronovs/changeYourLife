@@ -135,6 +135,7 @@ class StoryController extends Controller
         $validated_data = $request->validate([
             'title'=>'required|min:5|max:255|string',
             'sentence'=>'required|string',
+            'last_sentence'=>'string|min:1',
         ]);
         $story = Story::findOrFail($id);
         $story->update([
@@ -142,6 +143,9 @@ class StoryController extends Controller
         ]);
         $story->sentences()->orderBy('created_at','asc')->first()->update([
             'text'=>$request->input('sentence')
+        ]);
+        if ($request->input('last_sentence'))$story->sentences()->orderBy('created_at','desc')->first()->update([
+            'text'=>$request->input('last_sentence')
         ]);
         \DB::table('story_keyword')->where('story_id',$story->id)->delete();
         if($request->input('keywords')){
@@ -168,6 +172,23 @@ class StoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $story = Story::findOrFail($id);
+        \DB::table('comments')->where('story_id',$id)->delete();
+        \DB::table('story_keyword')->where('story_id',$id)->delete();
+        \DB::table('sentences')->where('story_id',$id)->delete();
+        \DB::table('rateables')->where('rateable_id',$id)->where('rateable_type','App\Story')->delete();
+        $story->delete();
+        return redirect()->route('stories.index');
+    }
+
+    public function getSearch()
+    {
+        return view('story_search');
+    }
+    
+    public function postSearch(Request $request)
+    {
+        return Story::where('title','LIKE','%'.$request->get('story_search').'%')
+            ->orWhere('user_id', 'LIKE', '%'.$request->get('story_search').'%')->get();
     }
 }
