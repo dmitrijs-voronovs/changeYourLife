@@ -62,7 +62,7 @@ class SentenceController extends Controller
      */
     public function show($id)
     {
-        $sentence = Sentence::withTrashed()->findOrFail($id);
+        $sentence = Sentence::findOrFail($id);
         return view('sentence',compact('sentence'));
     }
 

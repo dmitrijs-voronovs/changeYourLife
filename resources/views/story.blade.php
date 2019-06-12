@@ -42,11 +42,15 @@
                 @foreach($story->sentences()->withTrashed()->get() as $sentence)
                 <tr>
                     <td>
-                        <a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a>                        
+                        @if(!$sentence->trashed())
+                            <a href="{{route('users.show',$sentence->author->id)}}">{{$sentence->author->name}}</a>
+                        @else
+                            deleted
+                        @endif
                     </td>
                     <td>
-                        @if($sentence->trashed())<s>@endif
-                            <a class="text-muted" href="{{route('sentences.show',$sentence->id)}}">#{{$sentence->id}}</a> {{$sentence->text}}
+                        @if($sentence->trashed())<s>@endif<a class="text-muted" href="{{route('sentences.show',$sentence->id)}}">
+                            #{{$sentence->id}}</a> {{$sentence->text}}
                         @if($sentence->trashed())</s>@endif
                     </td>
                     <td>
@@ -55,14 +59,17 @@
                         @endcomponent
                     @endif
                     </td>
-                    <td class="text-center">{{App\Sentence::where('author_id',$sentence->author->id)->where('story_id',$story->id)->count()}}
-                    </td>
+                        <td class="text-center">
+                            @if(!$sentence->trashed())
+                                {{App\Sentence::where('author_id',$sentence->author->id)->where('story_id',$story->id)->count()}}
+                            @endif 
+                        </td>                   
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <a href="{{route('stories.index')}}" class="btn btn-primary">back</a>
+        <a href="{{route('stories.index')}}" class="btn btn-primary">Back</a>
         @if(Auth::user()->id == $story->user_id || Auth::user()->isAdmin())
         <a href="{{route('stories.edit',$story->id)}}" class="btn btn-primary">Edit</a>
         <form class="d-inline" action="{{route('stories.destroy',$story->id)}}" method="POST">
@@ -72,7 +79,7 @@
         </form>
         @endif
 
-        @if(!$story->finished && $story->sentences->last()->author_id != Auth::user()->id)
+        @if(!$story->finished && $story->sentences->last()->author_id != Auth::id())
             @if(array_key_exists(Auth::user()->id,$allUsers))
             <a href="{{route('sentences.create.special',$story->id)}}" class="btn btn-warning">Append</a>
             @elseif($story->open)

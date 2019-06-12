@@ -10,7 +10,7 @@ class StoryController extends Controller
 {
     public function __construct(){
         $this->middleware('auth')->except(['index']);
-        $this->middleware('ownerOrAdmin:story,stories')->only('edit','editMain','update','destroy');
+        $this->middleware('ownerOrAdmin:story,stories')->only('updateOpenParam','edit','editMain','update','destroy');
     }
     /**
      * Display a listing of the resource.
@@ -22,7 +22,9 @@ class StoryController extends Controller
         $stories_o = Story::where('open',1)->where('finished',0)->orderBy('updated_at','desc')->get();
         $stories_c = Story::where('open',0)->where('finished',0)->orderBy('updated_at','desc')->get();
         $stories_f = Story::where('finished',1)->orderBy('updated_at','desc')->get();
-        return view('stories',compact('stories_o','stories_c','stories_f'));
+        $stories_p = Story::where('user_id',\Auth::id())->orderBy('finished','asc')->orderBy('updated_at','desc')->get();
+        $stories_fol = Story::whereIn('user_id',\Auth::user()->followers)->orderBy('finished','asc')->orderBy('updated_at','desc')->get();
+        return view('stories',compact('stories_o','stories_c','stories_f','stories_p','stories_fol'));
     }
 
     /**
@@ -89,8 +91,8 @@ class StoryController extends Controller
         $sentenceList = $story->sentences;
         $allUsers = [];
         foreach($sentenceList as $sentence){
+            if ($sentence->trashed()) continue;
             $allUsers[$sentence->author->id] = $sentence->author->name;
-            // array_push($allUsers,$sentence->author->id);
         }
         return view('story',compact('story','allUsers'));
     }
@@ -164,6 +166,12 @@ class StoryController extends Controller
         return redirect()->route('stories.show',$story->id);
     }
 
+    public function updateOpenParam($id){
+        $story = Story::findOrFail($id);
+        $story->update(['open'=>1-$story->open]);
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -188,7 +196,10 @@ class StoryController extends Controller
     
     public function postSearch(Request $request)
     {
-        return Story::where('title','LIKE','%'.$request->get('story_search').'%')
-            ->orWhere('user_id', 'LIKE', '%'.$request->get('story_search').'%')->get();
+        $stories = Story::where('title','like','%'.$request->get('search').'%')->get();
+        $comments = \App\Comment::where('text','like','%'.$request->get('search').'%')->get();
+        $users = \App\User::where('name','like','%'.$request->get('search').'%')->get();
+        $keywords = \App\Keyword::where('word','like','%'.$request->get('search').'%')->get();
+        return [$stories,$comments,$users,$keywords];
     }
 }

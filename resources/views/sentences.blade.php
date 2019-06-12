@@ -3,6 +3,9 @@
 @section('content')
 <div class="card m-4 col-10">
 <!-- Card content -->
+  <div class="mx-3 mt-3 h1 card-title">
+    Sentences
+  </div>
   <div class="card-body">
   <table class="table">
     <thead>
