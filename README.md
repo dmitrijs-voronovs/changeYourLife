@@ -1,4 +1,5 @@
 # changeYourLife
+![CYL](https://user-images.githubusercontent.com/44952559/59381805-049b2300-8d65-11e9-8dc1-5272dc9a1f67.png)
 ### Main Functionality 
 Within the framework of the practical assignment, it is planned to develop a web system, that allows 
 people to write stories together sentence by sentence.
