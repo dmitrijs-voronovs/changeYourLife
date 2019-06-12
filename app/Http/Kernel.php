@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Admin::class,
         'lastSentenceCheck' => \App\Http\Middleware\LastSentenceFromAnotherUser::class,
         'storyOrSentenceAuthor' => \App\Http\Middleware\StoryOrSentenceAuthor::class,
+        'firstSentenceByOwner' => \App\Http\Middleware\FirstSentenceByOwner::class,
+        'lastSentenceOnFinishedStoryByOwner' => \App\Http\Middleware\LastSentenceOnFinishedStoryByOwner::class,
     ];
 
     /**

@@ -1,26 +1,27 @@
 @extends('layouts.app')
 @php
   if ($story->finished){
-    $class = ' bg-warning';
+    $class = 'warning';
   } else {
-    $class = ($story->open)?' bg-success':'';
+    $class = ($story->open)?'success':'primary';
   }
 @endphp
 
 @section('content')
 
-<div class="card">
+<div class="card border border-{{$class}}">
     <!-- Card content -->
     <div class="card-body">
 
         <!-- Title -->
-        <h4 class="card-title{{$class}}">{{$story->title}}</h4>
+        <h2 class="card-title mt-1">{{$story->title}}</h4>
         <!-- Text -->
-        <p class="card-text"><a href="{{route('users.show',$story->author->id)}}">{{$story->author->name}}</a></p>
+        <h4 class="card-text mb-3"><a href="{{route('users.show',$story->author->id)}}">{{$story->author->name}}</a></h4>
+        <hr>
         <!-- Button -->
-        <p>
+        <p class="pb-1">
             @forelse($story->keywords as $keyword)
-            <a href="{{route('keywords.show',$keyword->id)}}">{{$keyword->word}}</a> @if(!$loop->last),@endif
+                <a class="rounded-pill mr-2 btn-sm btn-primary" href="{{route('keywords.show',$keyword->id)}}">#{{$keyword->word}}</a>
             @empty
             No keywords
             @endforelse
@@ -46,15 +47,15 @@
                             <a href="{{route('sentences.show',$sentence->id)}}">#{{$sentence->id}}</a> {{$sentence->text}}
                         @if($sentence->trashed())</s>@endif
                     </td>
-                    <td>
-                    @if(\Auth::user()->isAdmin() || \Auth::user()->id == $story->user_id)
-                        <form action="{{route('sentences.destroy',$sentence->id)}}" method="POST">
+                    <td style="width:150px" class="p-1 d-flex">
+                    @if((!$loop->first && !($loop->last && $story->finished))&& (\Auth::user()->isAdmin() || \Auth::user()->id == $story->user_id))
+                        <form class="pr-1" action="{{route('sentences.destroy',$sentence->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
                             <input type="submit" class="btn btn-{{($sentence->trashed())?'success':'danger'}}" value="{{($sentence->trashed())?'Restore':'Delete'}}"/>
                         </form>
                     @endif
-                    @if(\Auth::user()->id == $story->user_id)
+                    @if(( !$loop->first  && !($loop->last && $story->finished)) && (\Auth::user()->id == $story->user_id))
                         <a class="btn btn-warning" href="{{route('sentences.edit',$sentence->id)}}">Edit</a>
                     @endif
                     </td>
@@ -66,6 +67,7 @@
         </table>
 
         <a href="{{route('stories.show',$story->id)}}" class="btn btn-primary">back</a>
+        <a href="{{route('stories.edit.main',$story->id)}}" class="btn btn-primary">Edit main parametres</a>
     </div>
 </div>
 

@@ -10,7 +10,7 @@ class StoryController extends Controller
 {
     public function __construct(){
         $this->middleware('auth')->except(['index']);
-        $this->middleware('ownerOrAdmin:story,stories')->only('edit','update','destroy');
+        $this->middleware('ownerOrAdmin:story,stories')->only('edit','editMain','update','destroy');
     }
     /**
      * Display a listing of the resource.
@@ -101,6 +101,21 @@ class StoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function editMain($id)
+    {
+        $keywords = \App\Story::findOrFail($id)->keywords;
+        $words = [];
+        foreach($keywords as $kw) array_push($words,$kw->word);
+        $keywords = implode(', ',$words);
+        $story = Story::findOrFail($id);
+        return view('story_edit_main',compact('story','keywords'));
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $keywords = \App\Keyword::all();
@@ -117,7 +132,32 @@ class StoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated_data = $request->validate([
+            'title'=>'required|min:5|max:255|string',
+            'sentence'=>'required|string',
+        ]);
+        $story = Story::findOrFail($id);
+        $story->update([
+            'title'=>$request->input('title')
+        ]);
+        $story->sentences()->orderBy('created_at','asc')->first()->update([
+            'text'=>$request->input('sentence')
+        ]);
+        \DB::table('story_keyword')->where('story_id',$story->id)->delete();
+        if($request->input('keywords')){
+            $new_keywords = explode(',',$request->input('keywords'));
+            foreach((array)$new_keywords as $nkw){
+                if($nkw=='') continue;
+                $checkForKw = \App\Keyword::where('word',trim($nkw));
+                if($checkForKw->count()==0){
+                    $story->keywords()->create(['word'=>trim($nkw)]);
+                } else {
+                    $checkForKw->first()->stories()->sync($story->id);
+                }
+            }
+        }
+        $story->save();
+        return redirect()->route('stories.show',$story->id);
     }
 
     /**

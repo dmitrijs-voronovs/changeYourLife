@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model
 {
-    protected $fillable=['title','user_id'];
+    protected $fillable=['title','user_id','finished'];
     public function author(){
         return $this->belongsTo('App\User','user_id');
     }

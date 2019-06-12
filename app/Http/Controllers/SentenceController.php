@@ -10,7 +10,7 @@ class SentenceController extends Controller
     public function __construct(){
         $this->middleware('auth')->except('index');
         $this->middleware('lastSentenceCheck')->only('create');
-        $this->middleware('storyOrSentenceAuthor')->only('edit','update');
+        $this->middleware(['storyOrSentenceAuthor','firstSentenceByOwner','lastSentenceOnFinishedStoryByOwner'])->only('edit','update');
     }
     /**
      * Display a listing of the resource.
@@ -42,13 +42,15 @@ class SentenceController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request,(bool)$request->input('finish'));
         $validated_data= $request->validate([
             'text'=>'required|string',
             'author_id'=>'integer|exists:users,id',
             'story_id'=>'integer|exists:stories,id'
         ]);
         $sentence = Sentence::create($validated_data);
-        if($request->input('finish')) $sentence->story->update(['finished',1]);
+        $story = \App\Story::findOrFail($sentence->story_id);
+        if($request->input('finish')) $story->update(['finished'=>1]);
         return redirect()->route('stories.show',$request->input('story_id'));
     }
 

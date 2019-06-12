@@ -14,7 +14,7 @@
     </div>
     @if(\App\Story::findOrFail($story_id)->user_id==$author_id)
     <div class="custom-control custom-checkbox mb-2">
-        <input type="checkbox" class="custom-control-input" name="finish" id="finish">
+        <input type="checkbox" class="custom-control-input" name="finish" value="1" id="finish">
         <label class="custom-control-label" for="finish">Finish your story with this sentence?</label>
     </div>
     @endif

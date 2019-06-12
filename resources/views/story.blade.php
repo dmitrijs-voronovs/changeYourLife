@@ -66,11 +66,11 @@
         @endif
 
         @if(!$story->finished && $story->sentences->last()->author_id != Auth::user()->id)
-        @if(array_key_exists(Auth::user()->id,$allUsers))
-        <a href="{{route('sentences.create.special',$story->id)}}" class="btn btn-warning">Append</a>
-        @else
-        <a href="{{route('sentences.create.special',$story->id)}}" class="btn btn-warning">Join and append</a>
-        @endif
+            @if(array_key_exists(Auth::user()->id,$allUsers))
+            <a href="{{route('sentences.create.special',$story->id)}}" class="btn btn-warning">Append</a>
+            @elseif($story->open)
+            <a href="{{route('sentences.create.special',$story->id)}}" class="btn btn-warning">Join and append</a>
+            @endif
         @endif
     </div>
 </div>
