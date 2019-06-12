@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Story;
+use App;
 use Auth;
 
 class StoryController extends Controller
@@ -22,8 +23,10 @@ class StoryController extends Controller
         $stories_o = Story::where('open',1)->where('finished',0)->orderBy('updated_at','desc')->get();
         $stories_c = Story::where('open',0)->where('finished',0)->orderBy('updated_at','desc')->get();
         $stories_f = Story::where('finished',1)->orderBy('updated_at','desc')->get();
-        $stories_p = Story::where('user_id',\Auth::id())->orderBy('finished','asc')->orderBy('updated_at','desc')->get();
-        $stories_fol = Story::whereIn('user_id',\Auth::user()->followers)->orderBy('finished','asc')->orderBy('updated_at','desc')->get();
+        $stories_p = [];
+        if (\Auth::user()) $stories_p = Story::where('user_id',\Auth::id())->orderBy('finished','asc')->orderBy('updated_at','desc')->get();
+        $stories_fol = [];
+        if (\Auth::user()) $stories_fol = Story::whereIn('user_id',\Auth::user()->followed_users->pluck('id'))->orderBy('finished','asc')->orderBy('open','asc')->orderBy('updated_at','desc')->get();
         return view('stories',compact('stories_o','stories_c','stories_f','stories_p','stories_fol'));
     }
 

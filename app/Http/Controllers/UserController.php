@@ -9,7 +9,6 @@ class UserController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-        $this->middleware('admin')->only('index');
     }
     
     /**
@@ -19,6 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $users =User::orderBy('name')->get();
         return view('users',compact('users'));
     }

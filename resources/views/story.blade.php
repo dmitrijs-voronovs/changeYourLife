@@ -11,10 +11,10 @@
 
 <div class="card border border-{{$class}}">
     <!-- Card content -->
-    <div class="card-body">
-
+    <div class="card-body position-relative">
         <!-- Title -->
         <h2 class="card-title mt-1">{{$story->title}}</h4>
+        <div style="margin-top:6px;right: 28px;" class="text-muted position-absolute">{{$story->created_at}}</div>
         <!-- Text -->
         <h4 class="card-text mb-3"><a href="{{route('users.show',$story->author->id)}}">{{$story->author->name}}</a></h4>
         <hr>
@@ -50,7 +50,9 @@
                     </td>
                     <td>
                         @if($sentence->trashed())<s>@endif<a class="text-muted" href="{{route('sentences.show',$sentence->id)}}">
-                            #{{$sentence->id}}</a> {{$sentence->text}}
+                            #{{$sentence->id}}</a> 
+                            @if(!$sentence->trashed() && $sentence->author_id == \Auth::id())<a href="{{route('sentences.edit',$sentence->id)}}" class="close mr-1" aria-label="Close"><img src="https://img.icons8.com/material-two-tone/18/000000/pencil-tip.png"> @endif
+        </a>{{$sentence->text}}
                         @if($sentence->trashed())</s>@endif
                     </td>
                     <td>

@@ -46,7 +46,16 @@ class KeywordController extends Controller
     public function index()
     {
         $keywords = Keyword::orderBy('word','asc')->get();
-        return view('keywords',compact('keywords'));
+        $keywords_top = DB::table('keywords')
+            ->join('story_keyword','keywords.id','=','story_keyword.keyword_id')
+            ->select(DB::raw('keywords.id, word, count(story_id) as total'))
+            ->groupBy('keywords.id','word')
+            ->orderBy('total','desc')
+            ->orderBy('word')
+            ->take(10)
+            ->get();
+        // dd($keywords_top);
+        return view('keywords',compact('keywords','keywords_top'));
     }
 
     /**

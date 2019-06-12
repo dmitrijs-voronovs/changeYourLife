@@ -8,7 +8,7 @@
   </div>
 </div>
 
-@forelse($keyword->stories as $story)
+@forelse($keyword->stories()->orderBy('created_at')->get() as $story)
     @php
       if ($story->finished){
         $class = 'warning';
