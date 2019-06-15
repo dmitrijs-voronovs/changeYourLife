@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/stories');
-});
+Route::get('/','HomeController@index')->name('index');
+
 Route::get('/home', function () {
     return redirect('/stories');
 });

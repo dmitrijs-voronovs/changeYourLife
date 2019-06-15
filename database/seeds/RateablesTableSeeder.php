@@ -6,7 +6,7 @@ class RateablesTableSeeder extends Seeder
 {
     public function appendTable(Int $user_id, Int $entity_total_count, String $entity_name){
         $keys = [];
-        for($r = 1; $r<=rand(1,100);$r++){
+        for($r = 1; $r<=rand(1,200);$r++){
             array_push($keys,rand(1,$entity_total_count));
         }
         $keys = array_unique($keys);

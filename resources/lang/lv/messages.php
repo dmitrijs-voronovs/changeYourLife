@@ -6,6 +6,7 @@ return [
     'Sentences'=>  'Teikumi',
     'Authors' =>  'Autori',
     'Search'=>  'Meklēt',
+    'Comments'=>'Komentāri',
     'Create_a_story'=>  'Izveidot stāstu',
     'Profile'=>  'Profils',
     'Logout'=>  "Atteikties",

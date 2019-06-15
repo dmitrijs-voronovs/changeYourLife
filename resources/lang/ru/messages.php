@@ -6,6 +6,7 @@ return [
     'Sentences'=>'Предложения',
     'Authors' => 'Авторы' ,
     'Search'=> 'Поиск',
+    'Comments'=>'Комментарии',
     'Create_a_story'=> 'Создать историю',
     'Profile'=> 'Профиль',
     'Logout'=> 'Выйти',

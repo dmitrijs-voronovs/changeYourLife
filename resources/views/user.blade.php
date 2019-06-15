@@ -6,7 +6,7 @@
         Info
     </div>
     <div class="card-body ml-3">
-        <h3 class="card-title">{{$user->name}} - <div class="text-muted d-inline">{{$user->email}}</div></h3>
+        <h3 class="card-title  mb-0">{{$user->name}} - <div class="text-muted d-inline">{{$user->email}}</div></h3>
         <p class="card-text"><br>
         <a href="{{route('followers',$user->id)}}">{{$user->followers->count()}} {{str_plural('follower',$user->followers->count())}}</a></p>
         

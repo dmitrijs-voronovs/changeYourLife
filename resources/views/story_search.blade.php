@@ -6,7 +6,6 @@ $(document).ready(function () {
     $("#search").keyup(function () {
         const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.post("{{route('stories.postSearch')}}", { search: $('#search').val(), _token: CSRF_TOKEN }, (data)=> {
-            console.log(data);
             $('#ins_st').html('');
             $('#ins_c').html('');
             $('#ins_u').html('');
@@ -34,17 +33,17 @@ $(document).ready(function () {
 <div class="card m-4 col-10">
 <!-- Card content -->
     <div class="mx-3 mt-3 h1 card-title d-inline">Search 
-        <small class="h4">for
-        <a href="#sec_Stories">stories</a>,
-        <a href="#sec_Comments">comments</a>,
-        <a href="#sec_Users">users</a>,
-        <a href="#sec_Keywords">keywords</a></small>
+        <small class="h4">{{__('messages.for')}}
+        <a href="#sec_Stories">{{strtolower(__('messages.Stories'))}}</a>,
+        <a href="#sec_Comments">{{strtolower(__('messages.Comments'))}}</a>,
+        <a href="#sec_Users">{{strtolower(__('messages.Authors'))}}</a>,
+        <a href="#sec_Keywords">{{strtolower(__('messages.Keywords'))}}</a></small>
     </div>
     <div class="form-group mx-3"><input class="form-control" type="text" id="search"></div>
 </div>
 
 <div class="card m-4 col-10" id="sec_Stories">
-  <div class="mx-3 mt-3 h3 card-title">Stories</div>
+  <div class="mx-3 mt-3 h4 text-muted card-title">{{__('messages.Stories')}}</div>
   <!-- <div class="card-body"> -->
     <ul class="list-group list-group-flush" id="ins_st">
     </ul>
@@ -52,7 +51,7 @@ $(document).ready(function () {
 </div>
 
 <div class="card m-4 col-10" id="sec_Comments">
-  <div class="mx-3 mt-3 h3 card-title">Comments</div>
+  <div class="mx-3 mt-3 h4 text-muted card-title">{{__('messages.Comments')}}</div>
   <!-- <div class="card-body"> -->
     <ul class="list-group list-group-flush" id="ins_c">
     </ul>
@@ -60,7 +59,7 @@ $(document).ready(function () {
 </div>
 
 <div class="card m-4 col-10" id="sec_Users">
-  <div class="mx-3 mt-3 h3 card-title">Users</div>
+  <div class="mx-3 mt-3 h4 text-muted card-title">{{__('messages.Authors')}}</div>
   <!-- <div class="card-body"> -->
     <ul class="list-group list-group-flush" id="ins_u">
     </ul>
@@ -68,7 +67,7 @@ $(document).ready(function () {
 </div>
 
 <div class="card m-4 col-10" id="sec_Keywords">
-  <div class="mx-3 mt-3 h3 card-title">Keywords</div>
+  <div class="mx-3 mt-3 h4 text-muted card-title">{{__('messages.Keywords')}}</div>
   <!-- <div class="card-body"> -->
     <ul class="list-group list-group-flush" id="ins_k">
     </ul>
