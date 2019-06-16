@@ -34,10 +34,10 @@ $(document).ready(function () {
 <!-- Card content -->
     <div class="mx-3 mt-3 h1 card-title d-inline">Search 
         <small class="h4">{{__('messages.for')}}
-        <a href="#sec_Stories">{{strtolower(__('messages.Stories'))}}</a>,
-        <a href="#sec_Comments">{{strtolower(__('messages.Comments'))}}</a>,
-        <a href="#sec_Users">{{strtolower(__('messages.Authors'))}}</a>,
-        <a href="#sec_Keywords">{{strtolower(__('messages.Keywords'))}}</a></small>
+        <a href="#sec_Stories">{{__('messages.Stories')}}</a>,
+        <a href="#sec_Comments">{{__('messages.Comments')}}</a>,
+        <a href="#sec_Users">{{__('messages.Authors')}}</a>,
+        <a href="#sec_Keywords">{{__('messages.Keywords')}}</a></small>
     </div>
     <div class="form-group mx-3"><input class="form-control" type="text" id="search"></div>
 </div>

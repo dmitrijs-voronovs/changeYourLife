@@ -9,7 +9,7 @@ use App\Keyword;
 class KeywordController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except(['index','top']);
+        $this->middleware('auth')->except(['index','top','show']);
     }
     
     public function top()

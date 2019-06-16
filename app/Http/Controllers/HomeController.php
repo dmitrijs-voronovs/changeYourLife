@@ -8,16 +8,6 @@ use App;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth')->only('index');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -34,6 +24,6 @@ class HomeController extends Controller
     public function postLanguage($locale){
         App::setLocale($locale);
         session()->put('locale',$locale);
-        return redirect()->route('stories.index');
+        return redirect()->route('index');
     }
 }

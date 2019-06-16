@@ -40,4 +40,4 @@ Route::resource('/sentences','SentenceController')->except('create');
 
 Route::resource('/comments','CommentController')->except('create','index');
 
-Route::resource('/rating','RateablesController');
+Route::resource('/rating','RateablesController')->only('store');

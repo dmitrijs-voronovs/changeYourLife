@@ -22,9 +22,9 @@ return [
     'Finished' => 'Finished',
     'Personal' => 'Personal',
     'Followed_people' => 'Followed people',
-    'greeting' => 'Hello!',
-    'description' => 'AMazing',
-    'explore' => 'Try different features',
+    'greeting' => 'Greetings!',
+    'description' => 'This is a unique story blog! Each story can be written only sentence by sentence, user by user. The author of the story begins and finishes with his own sentence. In the middle there are plot twists by other contributors. Users can rate and comment stories, follow other authors and search for stories by sentences or keywords.',
+    'explore' => 'Explore different features',
 ];
 
 ?>
