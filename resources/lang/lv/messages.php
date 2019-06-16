@@ -24,7 +24,7 @@ return [
     'Personal' =>  'Personīgie',
     'Followed_people' =>  'Sekojošie cilvēki',
     'greeting' => 'Sveicieni!',
-    'description' => 'Šis ir unikāls stāsta emuārs! Katru stāstu var rakstīt tikai ar teikumu, lietotājs pēc lietotāja. Stāsta autors sākas un beidzas ar savu teikumu. Vidū ir citi ziedotāji. Lietotāji var novērtēt un komentēt stāstus, sekot citiem autoriem un meklēt stāstus ar teikumiem vai atslēgvārdiem.',
+    'description' => 'Šis ir unikāls stāsta emuārs! Katru stāstu var rakstīt tikai teikumu pēc teikuma, lietotājs pēc lietotāja. Stāsta autors sāka un beidz stāstu ar savu teikumu. Vidū ir citu cilvēku teikumi. Lietotāji var novērtēt un komentēt stāstus, sekot citiem autoriem un meklēt stāstus pēc teikumiem vai atslēgvārdiem.',
     'explore' => 'Izpētiet dažādas funkcijas',
 ];
 
